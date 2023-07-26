@@ -1,10 +1,6 @@
 # On the Effectiveness of Offline RL for Dialogue Response Generation
 
-This repository contains code for the paper, [On the Effectiveness of Offline RL for Dialogue Response Generation](https://openreview.net/pdf?id=gVAk5bYETD), presented at ICML 2023. 
-
-**Abstract:** A common training technique for language models is teacher forcing (TF). TF attempts to match human language exactly, even though identical meanings can be expressed in different ways. This motivates use of sequence-level objectives for dialogue response generation. In this paper, we study the efficacy of various offline reinforcement learning (RL) methods to maximize such objectives. We present a comprehensive evaluation across multiple datasets, models, and metrics. Offline RL shows a clear performance improvement over teacher forcing while not inducing training instability or sacrificing practical training budgets.
-
-**Authors:** Paloma Sodhi, Felix Wu, Ethan R. Elenberg, Kilian Q. Weinberger, Ryan McDonald
+This repository contains code for the paper, [On the Effectiveness of Offline RL for Dialogue Response Generation](https://arxiv.org/abs/2307.12425), presented at ICML 2023.
 
 ## Installation
 ```bash
@@ -24,9 +20,9 @@ pip install -r requirements.txt
 
 Model | Links
 ---|---
-Base model (`tf`) | [ABCD](), [MultiWoz-2.2](), [TaskMaster-3]()
-Fine Tune on Top Returns (`tf_top`) | [ABCD](), [MultiWoz-2.2](), [TaskMaster-3]()
-Decision Transformers: Condition on Return (`dt`) | [ABCD](), [MultiWoz-2.2](), [TaskMaster-3]()
+Base model (`tf`) | [ABCD](https://public-dataset-model-store.awsdev.asapp.com/psodhi/dialogue-offline-rl/public/models/abcd-distilgpt2-tf-lr5e-4-bs4-epoch10-ws0-gas1-4gpu.zip), [MultiWoz-2.2](https://public-dataset-model-store.awsdev.asapp.com/psodhi/dialogue-offline-rl/public/models/multi_woz-distilgpt2-tf-lr5e-4-bs4-epoch10-ws0-gas1-4gpu.zip), [TaskMaster-3](https://public-dataset-model-store.awsdev.asapp.com/psodhi/dialogue-offline-rl/public/models/taskmaster3-distilgpt2-tf-lr5e-4-bs4-epoch10-ws0-gas1-4gpu.zip)
+Fine Tune on Top Returns (`tf_top`) | [ABCD](https://public-dataset-model-store.awsdev.asapp.com/psodhi/dialogue-offline-rl/public/models/abcd-distilgpt2-tf_top-lr5e-4-bs4-epoch10-ws0-gas1-4gpu.zip), [MultiWoz-2.2](https://public-dataset-model-store.awsdev.asapp.com/psodhi/dialogue-offline-rl/public/models/multi_woz-distilgpt2-tf_top-lr5e-4-bs4-epoch10-ws0-gas1-4gpu.zip), [TaskMaster-3](https://public-dataset-model-store.awsdev.asapp.com/psodhi/dialogue-offline-rl/public/models/taskmaster3-distilgpt2-tf_top-lr5e-4-bs4-epoch10-ws0-gas1-4gpu.zip)
+Decision Transformers: Condition on Return (`dt`) | [ABCD](https://public-dataset-model-store.awsdev.asapp.com/psodhi/dialogue-offline-rl/public/models/abcd-distilgpt2-dt-lr5e-4-bs4-epoch10-ws0-gas1-4gpu.zip), [MultiWoz-2.2](https://public-dataset-model-store.awsdev.asapp.com/psodhi/dialogue-offline-rl/public/models/multi_woz-distilgpt2-dt-lr5e-4-bs4-epoch10-ws0-gas1-4gpu.zip), [TaskMaster-3](https://public-dataset-model-store.awsdev.asapp.com/psodhi/dialogue-offline-rl/public/models/taskmaster3-distilgpt2-dt-lr5e-4-bs4-epoch10-ws0-gas1-4gpu.zip)
 Off-policy Q-learning (`ilql`) | [ABCD](), [MultiWoz-2.2](), [TaskMaster-3]()
 
 ## Data Processing
@@ -52,7 +48,7 @@ To generate datasets for all three methods (`tf_top`, `dt`, `ilql`), we need the
 
 ```bash
 for split in train val test; do
-    python scripts/process_data/prepare_offline_rl_data.py --model_path {model_path} --save_path {save_path} --split ${split}
+    python scripts/process_data/prepare_offline_rl_data.py --model_path_tf {model_path_tf} --save_path {save_path} --split ${split}
 done
 ```
 
@@ -73,7 +69,7 @@ bash scripts/train/train_offline_rl_distilgpt2.sh dt {dataset} {ngpu}
 for example, `bash scripts/train/train_offline_rl_distilgpt2.sh dt abcd 4`
 
 ### 3. Off-policy Q-learning, `ilql`
-First, install trlx from a fork [this location](https://github.asapp.dev/psodhi/trlx/tree/ps/dev/dialogue). Then execute the command:
+First, install trlx from a fork at [this location](https://github.asapp.dev/psodhi/trlx/tree/ps/dev/dialogue). Then execute the command:
 ```bash
 python scripts/training/run_trlx_ilql.py --config_path config/trlx_ilql_gpt2med.yml --data_path {ilql_data_path}
 ```
@@ -88,7 +84,7 @@ where, `method={tf, tf_top, dt, ilql}`, `dataset={abcd, multi_woz, taskmaster3}`
 
 ## Citation
 
-If you found our code or paper useful, please consider citing our work:
+If you found our code or paper useful, please consider citing:
 
 ```bibtex
 @inproceedings{sodhi2023offlinerl,
